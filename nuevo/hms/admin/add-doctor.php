@@ -110,7 +110,9 @@ if ($sql) {
 														</label>
 														<select name="Doctorspecialization" class="form-control" required="true">
 															<option value="">Seleccionar Especialización</option>
-															<?php $ret = mysqli_query($con, "select * from doctorspecilization");
+															<?php $ret = $ad->consultadocesp();
+															//Mientras sea verdadera la consulta realizar lo siguiente:
+															//Carga en un array las especialidades y con htmlentities lo convierte a entidad html
 															while ($row = mysqli_fetch_array($ret)) {
 															?>
 																<option value="<?php echo htmlentities($row['specilization']); ?>">

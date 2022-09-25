@@ -6,15 +6,11 @@ error_reporting(0);
 $con = $bd -> abrir_conexion();
 $ad = new Admin();
 $ad->checkloginadmin();
-if (isset($_POST['submit'])) {
-	$sql = mysqli_query($con, "insert into doctorSpecilization(specilization) values('" . $_POST['doctorspecilization'] . "')");
+$sql = $ad->InsertaEsp();
+if ($sql) {
 	$_SESSION['msg'] = "Especializaciones added successfully !!";
-}
-
-if (isset($_GET['del'])) {
-	mysqli_query($con, "delete from doctorSpecilization where id = '" . $_GET['id'] . "'");
-	$_SESSION['msg'] = "datos borrados";
-}
+			} 
+$ad->borrarEsp();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -126,7 +122,7 @@ if (isset($_GET['del'])) {
 									</thead>
 									<tbody>
 										<?php
-										$sql = mysqli_query($con, "select * from doctorSpecilization");
+										$sql = $ad->BuscarEsp();
 										$cnt = 1;
 										while ($row = mysqli_fetch_array($sql)) {
 										?>

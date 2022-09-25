@@ -3,7 +3,7 @@ session_start();
 require('../../clases/DataBase.php');
 require('../../clases/Admin.php');
 error_reporting(0);
-$bd->abrir_conexion();
+$con = $bd->abrir_conexion();
 $ad = new Admin();
 $ad->checkloginadmin();
 ?>

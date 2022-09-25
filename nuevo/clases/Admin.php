@@ -94,6 +94,9 @@ class Admin extends Persona{
    }
 
    //Método que inserta un doctor en la BDD
+   //está relacionado con el html, si se hace un submit (se envia el formulario),
+   //se van tomando los datos 1 a 1 y se los pasa a la base de datos en el value
+   //-- valor devuelto es un booleano-- False si no se pudo completar el insert, verdadero si fue satisfecha
    public function insertaDoc()
    {
 	$bd = new Base();
@@ -109,6 +112,77 @@ class Admin extends Persona{
 		$sql = mysqli_query($con, "insert into doctors(specilization,doctorName,address,docFees,contactno,docEmail,password) values('$docspecialization','$docname','$docaddress','$docfees','$doccontactno','$docemail','$password')");
 		return $sql;
 		}
+	}
+
+	//Método que trae todos los datos de la tabla doctorspecilization
+	//--valor devuelto es un booleano-- 
+	public function consultadocesp()
+	{
+		$bd = new Base();
+		$con = $bd -> abrir_conexion();
+		$ret = mysqli_query($con, "select * from doctorspecilization");
+		return $ret;
+	}
+
+
+	//obtiene "del" de los botones delete del html
+	//si la sentencia if es verdadera entonces establece la conexion con la bdd
+	//borra el registro y hace una consulta para saber si la acción se realizó con exito
+	//--valor devuelto es un array asociativo-- 
+	public function borrarDoc()
+	{
+		if(isset($_GET['del']))
+		  {
+				$bd = new Base();
+				$con = $bd -> abrir_conexion();
+		        mysqli_query($con,"delete from doctors where id = '".$_GET['id']."'");
+                return $_SESSION['msg']="datos borrados";
+		  }
+	}
+
+	//Método que trae todos los datos de la tabla doctors
+	//--valor devuelto es un booleano--
+	public function BuscaDOC()
+	{
+		$bd = new Base();
+		$con = $bd -> abrir_conexion();
+		$sql=mysqli_query($con,"select * from doctors");
+		return $sql;
+	}
+
+	//obtiene "del" de los botones delete del html
+	//si la sentencia if es verdadera entonces establece la conexion con la bdd
+	//borra el registro y hace una consulta para saber si la acción se realizó con exito
+	//--valor devuelto es un array asociativo-- 
+	public function borrarEsp()
+	{
+		if(isset($_GET['del']))
+		  {
+				$bd = new Base();
+				$con = $bd -> abrir_conexion();
+		        mysqli_query($con,"delete from doctorSpecilization where id = '".$_GET['id']."'");
+                return $_SESSION['msg']="datos borrados";
+		  }
+	}
+
+	public function InsertaEsp()
+	{
+		$bd = new Base();
+		$con = $bd -> abrir_conexion();	
+		if (isset($_POST['submit'])) {
+			$sql = mysqli_query($con, "insert into doctorSpecilization(specilization) values('" . $_POST['doctorspecilization'] . "')");
+			return $sql;
+		}
+	}
+
+	//Método que trae todos los datos de la tabla doctorSpecilization
+	//--valor devuelto es un booleano--
+	public function BuscarEsp()
+	{
+		$bd = new Base();
+		$con = $bd -> abrir_conexion();	
+		$sql = mysqli_query($con, "select * from doctorSpecilization");
+		return $sql;
 	}
 }
 
