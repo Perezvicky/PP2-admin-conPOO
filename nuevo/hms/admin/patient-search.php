@@ -90,10 +90,13 @@ $ad->checkloginadmin();
 										<tbody>
 											<?php
 
-											$sql = mysqli_query($con, "select * from tblpatient where PatientName like '%$sdata%'|| PatientContno like '%$sdata%'");
+											$sql = $ad->BuscaPaciente($sdata);
 											$num = mysqli_num_rows($sql);
 											if ($num > 0) {
 												$cnt = 1;
+												//Mientras la busqueda de verdadera se hará lo sigte.
+												//Carga en un array los datos $row
+												//con htmlentities convierte dato por dato en entidad html
 												while ($row = mysqli_fetch_array($sql)) {
 											?>
 													<tr>

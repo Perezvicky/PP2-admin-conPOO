@@ -38,38 +38,6 @@ class Base{
         
     }
     
-    public function enviar_consulta($sql)
-    {
-        $this->ultima_consulta = $sql;
-        $resultado = mysqli_query($this->conexion, $sql);
-        $this-> verificar_consulta($resultado);
-        return $resultado;
-    }
-
-    private function verificar_consulta($consulta){
-        if (!$consulta)
-        {
-            $salida= "No se ha podido realizar la consulta: ". mysqli_connect_errno(). "<br>";
-            $salida = "Ultima consulta SQL: ". $this->ultima_consulta;
-            die($salida);
-        }
-    }
-    public function fetch_array($resultado)
-    {
-        return mysqli_fetch_array($resultado);
-    }
-    public function affected_rows($resultado)
-    {
-        return mysqli_affected_rows($this->conexion);
-    }
-    public function insert_id()
-    {
-        return mysqli_insert_id($this->conexion);
-    }
-    /*public function num_rows($resultado)
-    {
-        return mysqli_num_rows($this->conexion);
-    }*/
 
 }
 $bd = new Base();

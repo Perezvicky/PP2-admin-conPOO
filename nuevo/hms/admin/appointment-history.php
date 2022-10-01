@@ -83,7 +83,7 @@ $ad->checkloginadmin();
 									</thead>
 									<tbody>
 <?php
-	$sql = mysqli_query($con, "select doctors.doctorName as docname,appointment.*  from appointment join doctors on doctors.id_doctor=appointment.id_doctor");
+	$sql = $ad->BuscarCitas();
 	$cnt = 1;
 	while ($row = mysqli_fetch_array($sql)) {
 												?>

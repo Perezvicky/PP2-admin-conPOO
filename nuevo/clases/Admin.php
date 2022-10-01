@@ -34,7 +34,7 @@ class Admin extends Persona{
 			$host = $_SERVER['HTTP_HOST'];
 			$uri  = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');		
 			$_SESSION["login"]="";
-			$extra = "localhost/probando-poo/nuevo/hms/admin/index-admin.php";
+			$extra = "index-admin.php";
 			return header("Location: http://$host$uri/$extra");
 		}
 	
@@ -128,7 +128,7 @@ class Admin extends Persona{
 	//obtiene "del" de los botones delete del html
 	//si la sentencia if es verdadera entonces establece la conexion con la bdd
 	//borra el registro y hace una consulta para saber si la acción se realizó con exito
-	//--valor devuelto es un array asociativo-- 
+	//--valor devuelto es un array asociativo que contiene variables de sesión disponibles-- 
 	public function borrarDoc()
 	{
 		if(isset($_GET['del']))
@@ -153,7 +153,7 @@ class Admin extends Persona{
 	//obtiene "del" de los botones delete del html
 	//si la sentencia if es verdadera entonces establece la conexion con la bdd
 	//borra el registro y hace una consulta para saber si la acción se realizó con exito
-	//--valor devuelto es un array asociativo-- 
+	//--valor devuelto es un array asociativo que contiene variables de sesión disponibles-- 
 	public function borrarEsp()
 	{
 		if(isset($_GET['del']))
@@ -182,6 +182,137 @@ class Admin extends Persona{
 		$bd = new Base();
 		$con = $bd -> abrir_conexion();	
 		$sql = mysqli_query($con, "select * from doctorSpecilization");
+		return $sql;
+	}
+
+	//Método que trae todos los datos de la tabla tblpatient
+	//--valor devuelto es un booleano--
+
+	public function BuscarPac()
+	{
+		$bd = new Base();
+		$con = $bd -> abrir_conexion();	
+		$sql =  mysqli_query($con, "select * from tblpatient");
+		return $sql;
+	}
+
+	//obtiene "del" de los botones delete del html
+	//si la sentencia if es verdadera entonces establece la conexion con la bdd
+	//borra el registro y hace una consulta para saber si la acción se realizó con exito
+	//--valor devuelto es un array asociativo que contiene variables de sesión disponibles-- 
+	public function BorrarUsuario()
+	{
+		$bd = new Base();
+		$con = $bd -> abrir_conexion();	
+		if(isset($_GET['del']))
+		  {
+		          mysqli_query($con,"delete from admin where id = '".$_GET['id']."'");
+                  return $_SESSION['msg']="datos borrados";
+		  }
+	}
+
+	//Método que trae todos los datos de la tabla admin
+	//--valor devuelto es un booleano--
+
+	public function BuscarAdmin()
+	{
+		$bd = new Base();
+		$con = $bd -> abrir_conexion();	
+		$sql = mysqli_query($con,"select * from admin");
+		return $sql;
+	}
+
+	//Método que trae el nombre del doctor y los datos de la cita, mediante un join.
+	//--valor devuelto es un booleano--
+
+	public function BuscarCitas()
+	{
+		$bd = new Base();
+		$con = $bd -> abrir_conexion();	
+		$sql = mysqli_query($con, "select doctors.doctorName as docname,appointment.*  from appointment join doctors on doctors.id=appointment.doctorId");
+		return $sql;
+	}
+
+	//obtiene "del" de los botones delete del html
+	//si la sentencia if es verdadera entonces establece la conexion con la bdd
+	//borra el registro y hace una consulta para saber si la acción se realizó con exito
+	//--valor devuelto es un array asociativo que contiene variables de sesión disponibles-- 
+
+	public function BorrarConsulta()
+	{
+		$bd = new Base();
+		$con = $bd -> abrir_conexion();	
+		if(isset($_GET['del']))
+		  {
+		        mysqli_query($con,"delete from doctors where id = '".$_GET['id']."'");
+                return $_SESSION['msg']="datos borrados";
+		  }
+	}
+
+	//Método que trae todos los datos de la tabla tblcontactus correspondiente a consultas no leidas
+	//--valor devuelto es un booleano--
+
+	public function BuscarNOleidas()
+	{
+		$bd = new Base();
+		$con = $bd -> abrir_conexion();	
+		$sql = mysqli_query($con,"select * from tblcontactus where IsRead is NULL");
+		return $sql;
+	}
+
+	//obtiene "del" de los botones delete del html
+	//si la sentencia if es verdadera entonces establece la conexion con la bdd
+	//borra el registro y hace una consulta para saber si la acción se realizó con exito
+	//--valor devuelto es un array asociativo que contiene variables de sesión disponibles-- 
+
+	public function BorrarLeida()
+	{
+		$bd = new Base();
+		$con = $bd -> abrir_conexion();	
+		if(isset($_GET['del']))
+		  {
+		          mysqli_query($con,"delete from doctors where id = '".$_GET['id']."'");
+                  $_SESSION['msg']="datos borrados";
+		  }
+	}
+	//Método que trae todos los datos de la tabla tblcontactus correspondiente a consultas leidas
+	//--valor devuelto es un booleano--
+	public function Leida()
+	{
+		$bd = new Base();
+		$con = $bd -> abrir_conexion();	
+		$sql= mysqli_query($con,"select * from tblcontactus where IsRead is not null");
+		return $sql;
+	}
+
+	//Método que trae todos los datos de la tabla doctorslog correspondiente a los inicio de sesión de los profesionales
+	//--valor devuelto es un booleano--
+	public function LoginDoc()
+	{
+		$bd = new Base();
+		$con = $bd -> abrir_conexion();	
+		$sql= mysqli_query($con,"select * from doctorslog ");
+		return $sql;
+	}
+
+	//Método que trae todos los datos de la tabla userlog correspondiente a los inicio de sesión de los usuarios, futuros pacientes
+	//--valor devuelto es un booleano--
+	public function LoginUser()
+	{
+		$bd = new Base();
+		$con = $bd -> abrir_conexion();	
+		$sql= mysqli_query($con,"select * from userlog ");
+		return $sql;
+	}
+
+	//Método que trae todos los datos de la tabla userlog correspondiente a los inicio de sesión de los usuarios, futuros pacientes
+	//--valor devuelto es un booleano--
+	public function BuscaPaciente($Datos)
+	{
+		$bd = new Base();
+		$con = $bd -> abrir_conexion();	
+		$sdata= $Datos;
+		$sql=  mysqli_query($con, "select * from tblpatient where PatientName like '%$sdata%'|| PatientContno like '%$sdata%'");
 		return $sql;
 	}
 }

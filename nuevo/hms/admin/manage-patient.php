@@ -73,7 +73,7 @@ $ad->checkloginadmin();
 									<tbody>
 										<?php
 
-										$sql = mysqli_query($con, "select * from tblpatient");
+										$sql = $ad->BuscarPac();
 										$cnt = 1;
 										while ($row = mysqli_fetch_array($sql)) {
 										?>

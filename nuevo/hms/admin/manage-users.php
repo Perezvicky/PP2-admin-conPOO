@@ -6,12 +6,8 @@ error_reporting(0);
 $con  = $bd -> abrir_conexion();
 $ad = new Admin();
 $ad->checkloginadmin();
+$ad->BorrarUsuario();
 
-if(isset($_GET['del']))
-		  {
-		          mysqli_query($con,"delete from admin where id = '".$_GET['id']."'");
-                  $_SESSION['msg']="datos borrados";
-		  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -82,7 +78,7 @@ if(isset($_GET['del']))
 										</thead>
 										<tbody>
 <?php
-$sql=mysqli_query($con,"select * from admin");
+$sql= $ad->BuscarAdmin();
 $cnt=1;
 while($row=mysqli_fetch_array($sql))
 {

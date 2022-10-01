@@ -80,8 +80,11 @@ $ad->checkloginadmin();
 										</thead>
 										<tbody>
 <?php
-$sql=mysqli_query($con,"select * from userlog ");
+$sql=$ad->LoginUser();
 $cnt=1;
+//Mientras la busqueda de verdadera se hará lo sigte.
+//Carga en un array los datos $row
+//con htmlentities convierte dato por dato en entidad html
 while($row=mysqli_fetch_array($sql))
 {
 ?>

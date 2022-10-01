@@ -6,13 +6,9 @@ error_reporting(0);
 $con  = $bd -> abrir_conexion();
 $ad = new Admin();
 $ad->checkloginadmin();
+$ad->BorrarConsulta();
 
 
-if(isset($_GET['del']))
-		  {
-		          mysqli_query($con,"delete from doctors where id = '".$_GET['id']."'");
-                  $_SESSION['msg']="datos borrados";
-		  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -83,8 +79,11 @@ if(isset($_GET['del']))
 										</thead>
 										<tbody>
 <?php
-$sql=mysqli_query($con,"select * from tblcontactus where IsRead is null");
+$sql= $ad->BuscarNOleidas();
 $cnt=1;
+//Mientras la busqueda de verdadera se hará lo sigte.
+//Carga en un array los datos $row
+//con htmlentities convierte dato por dato en entidad html
 while($row=mysqli_fetch_array($sql))
 {
 ?>
